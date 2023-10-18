@@ -6,8 +6,13 @@ authors = ["dsthiago <thiagosd.2.18@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.9,<3.13"
 lightning = "^2.1.0"
+ipykernel = "^6.25.2"
+jupyter = "^1.0.0"
+jupyter-contrib-nbextensions = "^0.7.0"
+pandas = "^2.1.1"
+seaborn = "^0.13.0"
 
 
 [build-system]
