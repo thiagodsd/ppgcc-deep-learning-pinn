@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Local development settings
+*.env
+*.env.*
+.envrc
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+# *.ipynb
+
+# PyTorch checkpoints
+*.pt
+
+# PyTorch Lightning logs
+lightning_logs/
+
+# Other
+*.pyc
+.DS_Store
