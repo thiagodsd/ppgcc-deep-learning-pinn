@@ -1,0 +1,4 @@
+  The numerical solution y(x) of 
+          y' = 1/(cosh(x))^2, 
+               y(0)=0,
+(second column) for various x (first column).
