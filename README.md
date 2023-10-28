@@ -14,7 +14,7 @@
 
 - `notebooks/dho_with_param_learning_debug_0.ipynb` <br/> In this notebook we will try to make some experiments with the **Driven Harmonic Oscillator** (DHO) synthetic data. We try to learn the intensity $F_0$ of sinonoidal driven force in $$m\ddot{x} + c\dot{x} + kx = F_0\cos(\omega t + \phi_d)$$
 
-- `notebooks/nlc_without_param_learning.ipynb` <br/>In this notebook we will try to estimate the parameters of the **Newton's Law of Cooling (NLC)** using a Physics-Informed Neural Network (PINN). We will compare the results with that obtained using a simple Ordinary Least Squares (OLS) regression.
+- `notebooks/nlc_wit_param_learning.ipynb` <br/>In this notebook we will try to estimate the parameters of the **Newton's Law of Cooling (NLC)** using a Physics-Informed Neural Network (PINN). We will compare the results with that obtained using a simple Ordinary Least Squares (OLS) regression.
 
 
 # references
