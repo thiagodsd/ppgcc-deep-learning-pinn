@@ -2,6 +2,8 @@
 
 :floppy_disk: [google drive](https://drive.google.com/drive/folders/1q4rUKQ8sSXJGirQYPOodSbaE9h4kbZ_q?usp=drive_link)
 
+<!--
+
 # notebooks
 
 - `notebooks/dho_with_param_learning.ipynb`<br/> In this notebook we will try to write code for a PINN that solves the **Damped Harmonic Oscillator** (DHO) problem. We will not use the parameter learning approach. Instead, we will use a MLP to learn the solution of the DHO problem. Then, we turn the MLP in a PINN by adding the DHO ODE as a loss function.<br/> The goal here is not to get the best results, but to get a working code that we can use as a starting point for the parameter learning approach.
@@ -20,3 +22,5 @@
 # references
 
 `todo`
+
+-->
