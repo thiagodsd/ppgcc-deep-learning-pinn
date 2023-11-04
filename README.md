@@ -16,8 +16,8 @@ This repository is structured into two main branches:
 
 For any inquiries, please contact us:
 
-- @carolinamouraf
-- @thiagodsd
+- [carolinamouraf](https://github.com/carolinamouraf)
+- [thiagodsd](https://github.com/thiagodsd)
 
 
 <!--
