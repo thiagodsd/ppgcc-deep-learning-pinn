@@ -47,3 +47,4 @@ lightning_logs/
 # Other
 *.pyc
 .DS_Store
+data/08_reporting/**/random_grid_search/**/*
