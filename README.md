@@ -2,45 +2,14 @@
 
 ## Overview
 
-This repository is structured into two main branches:
+This branch is focused on the development of a Convolutional Neural Network (CNN) architecture to solve a binary classification problem on Remote Sensing (RS). 
 
-- `main`: Contains materials related to our seminar studies on PINNs. We studied four systems:
-    1. [Damped Harmonic Oscillators](notebooks/damped_harmonic_oscillator.ipynb)
-    2. [Driven Harmonic Oscillators](notebooks/driven_harmonic_oscillator.ipynb)
-    3. [Newton's Law of Cooling](notebooks/newton_law_cooling.ipynb)
-    4. [Burgers' Equation](notebooks/bateman_burgers_equation.ipynb)
-  
-- `paper`: Under development, but this branch is focused on present our experiments in a scientific paper format.
+The dataset used is the [Trees in Satellite Imagery](https://www.kaggle.com/datasets/mcagriaksoy/trees-in-satellite-imagery) dataset, which contains 10,000 images of 64x64 pixels, divided into two classes: trees and non-trees. The dataset is divided into 8,000 images for training and 2,000 images for testing. The images are RGB, with 3 channels, and the labels are binary, with 0 for non-trees and 1 for trees.
 
-## Contact
+This model is part of a couple of conclusion projects for the Deep Learning course from Master's degree in Computer Science at Universidade Estadual Paulista (UNESP).
 
-For any inquiries, please contact us:
+## References
 
-- @carolinamouraf
-- @thiagodsd
+1. M.Ç.Aksoy (2022). Trees in Satellite Imagery [Dataset].https://www.kaggle.com/datasets/mcagriaksoy/trees-in-satellite-imagery
 
-
-<!--
-
-:floppy_disk: [google drive](https://drive.google.com/drive/folders/1q4rUKQ8sSXJGirQYPOodSbaE9h4kbZ_q?usp=drive_link)
-
-# notebooks
-
-- `notebooks/dho_with_param_learning.ipynb`<br/> In this notebook we will try to write code for a PINN that solves the **Damped Harmonic Oscillator** (DHO) problem. We will not use the parameter learning approach. Instead, we will use a MLP to learn the solution of the DHO problem. Then, we turn the MLP in a PINN by adding the DHO ODE as a loss function.<br/> The goal here is not to get the best results, but to get a working code that we can use as a starting point for the parameter learning approach.
-
-- `notebooks/dho_without_param_learning_debug_0.ipynb`<br/> In this notebook we will try to make some experiments with the **Damped Harmonic Oscillator** (DHO) synthetic data. Here the goal is to vary some hyperparameters and see how the model behaves in terms interpolation -- rather than extrapolation.
-
-- `notebooks/dho_without_param_learning_debug_1.ipynb`<br/> In this notebook we will try to make some experiments with the **Damped Harmonic Oscillator** (DHO) synthetic data. Here the goal is to explore the ability of the model to learn regions out of both locations and training domain.
-
-- `notebooks/dho_without_param_learning_debug_2.ipynb`<br/> In this notebook we will try to make some experiments with the **Damped Harmonic Oscillator** (DHO) synthetic data. Here the goal is to explore the ability of the model to learn the ODE's solution given that we only know data from lower and upper bounds of domain.
-
-- `notebooks/dho_with_param_learning_debug_0.ipynb` <br/> In this notebook we will try to make some experiments with the **Driven Harmonic Oscillator** (DHO) synthetic data. We try to learn the intensity $F_0$ of sinonoidal driven force in $$m\ddot{x} + c\dot{x} + kx = F_0\cos(\omega t + \phi_d)$$
-
-- `notebooks/nlc_wit_param_learning.ipynb` <br/>In this notebook we will try to estimate the parameters of the **Newton's Law of Cooling (NLC)** using a Physics-Informed Neural Network (PINN). We will compare the results with that obtained using a simple Ordinary Least Squares (OLS) regression.
-
-
-# references
-
-`todo`
-
--->
+2. Helber, P., Bischke, B., Dengel, A., & Borth, D. (2019). Eurosat: A novel dataset and deep learning benchmark for land use and land cover classification. IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 12(7), 2217-2226.
