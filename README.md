@@ -4,7 +4,7 @@
 
 This branch is focused on the development of a Convolutional Neural Network (CNN) architecture to solve a binary classification problem on Remote Sensing (RS). 
 
-The dataset used is the [Trees in Satellite Imagery](https://www.kaggle.com/datasets/mcagriaksoy/trees-in-satellite-imagery) dataset, which contains 10,000 images of 64x64 pixels, divided into two classes: trees and non-trees. The dataset is divided into 8,000 images for training and 2,000 images for testing. The images are RGB, with 3 channels, and the labels are binary, with 0 for non-trees and 1 for trees.
+The dataset used is the [Volume de Represas de São Paulo](https://www.kaggle.com/cerranet/volume-de-represas-de-so-paulo) from Kaggle. The dataset contains 2,000 images of 256x256 pixels, divided into two classes: 1) reservoirs with low water volume and 2) reservoirs with high water volume.
 
 This model is part of a couple of conclusion projects for the Deep Learning course from Master's degree in Computer Science at Universidade Estadual Paulista (UNESP).
 
@@ -12,11 +12,14 @@ This model is part of a couple of conclusion projects for the Deep Learning cour
 
 ```sh
 # download dataset
-kaggle datasets download -d mcagriaksoy/trees-in-satellite-imagery
+kaggle datasets download -d cerranet/volume-de-represas-de-so-paulo
+
 ```
 
 ## References
 
+<!-- 
 1. M.Ç.Aksoy (2022). Trees in Satellite Imagery [Dataset].https://www.kaggle.com/datasets/mcagriaksoy/trees-in-satellite-imagery
 
-2. Helber, P., Bischke, B., Dengel, A., & Borth, D. (2019). Eurosat: A novel dataset and deep learning benchmark for land use and land cover classification. IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 12(7), 2217-2226.
+2. Helber, P., Bischke, B., Dengel, A., & Borth, D. (2019). Eurosat: A novel dataset and deep learning benchmark for land use and land cover classification. IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 12(7), 2217-2226. 
+-->
