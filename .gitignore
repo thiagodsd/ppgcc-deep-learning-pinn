@@ -48,3 +48,6 @@ lightning_logs/
 *.pyc
 .DS_Store
 data/08_reporting/**/random_grid_search/**/*
+data/01_raw/trees-in-satellite-imagery.zip
+data/01_raw/trees-in-satellite-imagery/Trees in Satellite Imagery/NoTrees/*
+data/01_raw/trees-in-satellite-imagery/Trees in Satellite Imagery/Trees/*

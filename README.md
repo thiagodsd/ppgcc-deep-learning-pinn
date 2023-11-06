@@ -8,6 +8,13 @@ The dataset used is the [Trees in Satellite Imagery](https://www.kaggle.com/data
 
 This model is part of a couple of conclusion projects for the Deep Learning course from Master's degree in Computer Science at Universidade Estadual Paulista (UNESP).
 
+## Snippets
+
+```sh
+# download dataset
+kaggle datasets download -d mcagriaksoy/trees-in-satellite-imagery
+```
+
 ## References
 
 1. M.Ç.Aksoy (2022). Trees in Satellite Imagery [Dataset].https://www.kaggle.com/datasets/mcagriaksoy/trees-in-satellite-imagery
