@@ -48,3 +48,7 @@ lightning_logs/
 *.pyc
 .DS_Store
 data/08_reporting/**/random_grid_search/**/*
+data/01_raw/trees-in-satellite-imagery/**/*.jpg
+data/01_raw/trees-in-satellite-imagery.zip
+data/01_raw/volume-de-represas-de-so-paulo/**/*.tif
+data/01_raw/volume-de-represas-de-so-paulo.zip
