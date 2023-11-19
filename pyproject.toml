@@ -6,7 +6,7 @@ authors = ["dsthiago <thiagosd.2.18@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.13"
+python = ">=3.9,<3.12"
 lightning = "^2.1.0"
 ipykernel = "^6.25.2"
 jupyter = "^1.0.0"
@@ -19,6 +19,13 @@ optuna = "^3.4.0"
 plotly = "^5.17.0"
 fastparquet = "^2023.10.1"
 pytorchtools = "^0.0.2"
+geopandas = "^0.14.1"
+folium = "^0.15.0"
+tensorflow = "^2.15.0"
+selenium = "^4.15.2"
+cartopy = "^0.22.0"
+xarray = "^2023.11.0"
+netcdf4 = "^1.6.5"
 
 
 [build-system]
