@@ -26,6 +26,7 @@ selenium = "^4.15.2"
 cartopy = "^0.22.0"
 xarray = "^2023.11.0"
 netcdf4 = "^1.6.5"
+scikit-image = "^0.22.0"
 
 
 [build-system]
