@@ -1,0 +1,162 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage[utf8]{inputenc}
+% \usepackage[brazilian]{babel}
+\usepackage{lipsum}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\begin{document}
+
+\title{Probabilidade de Incêndio no Território do Brasil}
+\author{Duarte, T. S.}
+
+\maketitle
+
+\begin{abstract}
+\lipsum[1]
+\end{abstract}
+
+\section{Introdução}
+
+\section{Métodos}
+
+\subsection{Dados}
+
+\subsection{Gráfico}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{../data/08_reporting/wildfire_spread/data_availability.png}
+\caption{Legenda da imagem.}
+\label{fig:meu_rotulo}
+\end{figure}
+
+
+%
+% % \subsection{Pseudocódigo}
+% % \begin{algorithm}
+% % \caption{Algoritmo de Exemplo}
+% % \begin{algorithmic}[1]
+% % \Procedure{MeuAlgoritmo}{}
+% % \State $x \gets 0$
+% % \While{$x < 10$}
+% % \State $x \gets x + 1$
+% % \EndWhile
+% % \EndProcedure
+% % \end{algorithmic}
+% % \end{algorithm}
+%
+% \subsection{Modelo}
+% O modelo usado está encapsulado na classe \texttt{WildfirePredictor}, um modelo de aprendizagem profunda que recebe um \emph{batch} de $N$ dias vinda do conjunto de dados estruturado conforme a seção anterior e retorna uma matriz espacial de probabilidades de foco de incêndio, onde cada elemento de matriz corresponde a uma região de longitude e latitude. A arquitetura é uma combinação de rede convolucional para extração de \emph{features} e rede de memória de longo e curto prazo, para levar em conta a temporalidade do conjunteo de dados.\\
+% A arquitetura está estruturada da seguinte forma:
+%
+% \begin{enumerate}
+%     \item \textbf{Camadas de Convolução}: A etapa de convolução é compostas por duas camadas; a primeira com \emph{input} de 4 canais, \emph{output} de \texttt{conv1\_channels}, \emph{kerne} de $3 \times 3$, passo de 2 e preenchimento de 1; o segundo é tem as mesmas propriedades, exceto pelo \emph{output}, que tem \texttt{conv2\_channels} canais. Essa camada desempenha papel de extração de \emph{features} das matrizes que representam mapas.
+%     \item \textbf{Camada Temporal}: A etapa temporal recebe o \emph{output} das camadas de convolução, a horizontaliza, convertendo o tensor final em um \emph{array} de \texttt{lstm\_hidden\_size} células.
+%
+% \end{enumerate}
+%
+% \section{Resultados}
+%
+% % \subsection{Gráfico}
+% % \begin{figure}[h]
+% % \centering
+% % \includegraphics[width=0.8\linewidth]{caminho_para_sua_imagem.jpg}
+% % \caption{Legenda da imagem.}
+% % \label{fig:meu_rotulo}
+% % \end{figure}
+%
+% % \subsection{Tabela}
+% % \begin{table}[h]
+% % \centering
+% % \caption{Legenda da tabela.}
+% % \label{tab:meu_rotulo}
+% % \begin{tabularx}{\columnwidth}{|c|c|c|}
+% % \hline
+% % Coluna 1 & Coluna 2 & Coluna 3 \\
+% % \hline
+% % Dado 1 & Dado 2 & Dado 3 \\
+% % \hline
+% % \end{tabularx}
+% % \end{table}
+%
+% \section{Conclusão}
+% \lipsum[11]
+%
+% % \bibliographystyle{IEEEtran}
+% % \bibliography{referencias}
+
+\end{document}
+
+
+% \documentclass{article}
+% \usepackage[utf8]{inputenc}
+% \usepackage{algorithm}
+% \usepackage{algpseudocode}
+
+% \begin{document}
+
+% % \begin{algorithm}
+% % \caption{Training a Physics-Informed Neural Network (PINN)}
+% % \begin{algorithmic}[1]
+% % \REQUIRE Training data: $(x_{i}, t_{i}, u_{i})$, Physical laws: $F(x, t, u, u_{x}, u_{t},...)$, Collocation points: $(x_{c}, t_{c})$
+
+% % \STATE Initialize weights and biases: $W^{(l)}, b^{(l)}$
+% % \FOR{number of training epochs}
+% %     \FOR{each training sample $(x_{i}, t_{i}, u_{i})$}
+% %         \STATE Compute predicted output using forward pass: $u_{pred} = \text{NN}(x_{i}, t_{i}; W, b)$
+% %         \STATE Calculate data loss: $L_{D} = ||u_{pred} - u_{i}||^2$
+% %     \ENDFOR
+% %     \FOR{each collocation point $(x_{c}, t_{c})$}
+% %         \STATE Use automatic differentiation to compute: $u_{x}, u_{t}, ...$
+% %         \STATE Compute the residuals based on physical laws: $r = F(x_{c}, t_{c}, u, u_{x}, u_{t},...)$
+% %         \STATE Calculate physics-informed loss: $L_{F} = ||r||^2$
+% %     \ENDFOR
+% %     \STATE Compute total loss: $L = L_{D} + L_{F}$
+% %     \STATE Backpropagate to get gradients: $\nabla L$
+% %     \STATE Update weights and biases using an optimization algorithm (e.g., Adam, SGD)
+% % \ENDFOR
+% % \RETURN trained model parameters $W^{(l)}, b^{(l)}$
+% % \end{algorithmic}
+% % \end{algorithm}
+
+
+% \begin{algorithm}
+% \caption{Treinamento de Physics Informed Neural Networks}
+% \begin{algorithmic}[1]
+% \Require Features de treinamento: $X=(x_i, t_i)$
+% \Require Target de treinamento: $Y=(y_i)$
+% \Require Pontos collocation: $C=(x_c,t_c)$
+% \Require Quantidade de épocas: $E$
+% \Require Learning rate: $\alpha$
+% \Require Função de ativação: $a$
+% \Require Peso de função perda física: $\lambda$
+% \Require Função equação diferencial: F
+% \Require Função condições iniciais e de contorno: B
+% \Procedure{pinn}{}
+%     \State Início aleatório de pesos e vieses $W$ e $b$
+%     \For{$epoch = 1$ to E}
+%         \State Zera gradientes
+%         \For{each ($t_i$, $x_i$, $y_i$) in ($X$, $Y$)}
+%             \State Forward: $\hat{y} = \text{NN}(x_{i}, t_{i}; W, b)$
+%         \EndFor
+%         \State $\mathcal{L}_{\mathcal{D}} \gets \;$ Calcula função perda dos dados
+%         \For{each ($t_c$, $x_c$) in $C$}
+%             \State Forward: $\hat{y}_{c} = \text{NN}(x_{c}, t_{c}; W, b)$
+%             \State Calcula equação diferencial: $F(x_{c}, t_{c}, \hat{y}_{c}, \partial_{x}\hat{y}_{c}, \partial_{t}\hat{y}_{c}, \dots)$
+%             \State Calcula condições de contorno
+%         \EndFor
+%         \State $\mathcal{L}_{\mathcal{F}} \gets \;$ Calcula função perda de sistema físico
+%         \State $\mathcal{L}_{\mathcal{B}} \gets \;$ Calcula função perda de condições de contorno
+%         \State $\mathcal{L}} \gets \mathcal{L}_{\mathcal{D}} + \lambda(\mathcal{L}_{\mathcal{F}} + \mathcal{L}_{\mathcal{B}})$
+%         \State Backpropagation
+%         \State Atualiza pesos e vieses $W$ e $b$
+%     \EndFor
+% \EndProcedure
+% \end{algorithmic}
+% \end{algorithm}
+
+% \end{document}
