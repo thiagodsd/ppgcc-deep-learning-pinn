@@ -1,13 +1,16 @@
 \documentclass[journal]{IEEEtran}
-
 \usepackage[utf8]{inputenc}
-% \usepackage[brazilian]{babel}
 \usepackage{lipsum}
 \usepackage{cite}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{subcaption}
+\usepackage{float}
 
 \begin{document}
 
@@ -17,146 +20,228 @@
 \maketitle
 
 \begin{abstract}
-\lipsum[1]
+    A análise de séries temporais de imagens permite a identificação de tendências, padrões sazonais e eventos anômalos, como incêndios florestais, que podem causar impactos significativos no meio ambiente. Por exemplo, a detecção precoce de incêndios usando imagens de satélite pode salvar ecossistemas e vidas, demonstrando a relevância deste campo de estudo no contexto atual de mudanças climáticas e desafios ambientais.\newline
+    O objetivo desse trabalho é propor um modelo de aprendizagem profunda para prever a probabilidade de incêndios florestais no território do Brasil, utilizando dados de sensoriamento remoto. O modelo é composto por uma Rede Neural Convolucional (CNN), uma Rede Neural Recorrente de Memória de Curto Prazo (LSTM) e uma Rede Neural Totalmente Conectada (FCN), e é treinado com dados de focos de incêndio, precipitação, temperatura, umidade relativa do ar e número de dias sem chuva.
 \end{abstract}
 
 \section{Introdução}
 
+O sensoriamento remoto é uma tecnologia crucial para monitorar e entender as dinâmicas ambientais da Terra. Com a difusão do acesso a poderes computacionais cada vez maiores para uso doméstico e acadêmico, métodos de aprendizagem estatística têm sido aplicado com sucesso no sensoriamento remoto. Devido à natureza dos dados desse paradigma -- sinais eletromagnéticos captados em sensores de satélites, geralmente convertidos para arquivos de estrutura matricial ou tensorial -- é comum a associação de métodos orientados a imagens. Eventualmente é possível contornar os problemas de custo computacional inerentes a esse tipo de método através de estratégias baseadas em taxonomias, onde as imagens passagem por algoritmos de extração de características, que populam datasets tabulares e que, portanto, podem ser usados em algoritmos clássicos de aprendizagem de máquina ao serem tratados como problemas de classificação, por exemplo \cite{Dias2022,Dias2019}.\newline
+Ambas as abordagens citadas têm em comum o fato de, implicitamente, considerarem o problema como invariante por transformações temporais. Uma abordagem alternativa à uma redução de dimensionalidade ou uma transformação de características de imagens baseadas em taxonomias, para posterior análise de séries temporais, é a aprendizagem da representação das correlações entre eventos e features ao longo do tempo. Essa abordagem é especialmente interessante para o sensoriamento remoto, uma vez que a maioria dos dados de satélite são naturalmente organizados em séries temporais tensoriais. No contexto de aprendizagem profunda, esse tipo de problema pode ser tratado com o uso de redes neurais recorrentes, que são capazes de aprender representações de sequências de dados, e que podem ser combinadas com redes neurais convolucionais para extrair características espaciais de dados de sensoriamento remoto.\newline
+Nesse trabalho é proposto um modelo de aprendizagem profunda para prever a probabilidade de incêndios florestais no território do Brasil, utilizando dados de sensoriamento remoto. O modelo é composto por uma Rede Neural Convolucional, uma Rede Neural Recorrente de Memória de Curto Prazo, e uma Rede Neural Totalmente Conectada.\newline
+
 \section{Métodos}
+
+\subsection{Hardware e Software}
+
+O modelo foi desenvolvido em um sistema operacional \textit{Ubuntu Linux 22.04} de 64 bits, equipado com 16 GB de RAM e um processador \textit{AMD Ryzen 7 3700X} de 8 núcleos. A unidade de processamento gráfico utilizada foi uma \textit{NVIDIA GeForce GTX 1660 Ti}. Todos os códigos foram implementados e executados utilizando a linguagem de programação \textit{Python}, na versão 3.10.12. Especificamente, o modelo de predição de incêndios florestais foi desenvolvido com o uso da biblioteca \textit{PyTorch}, versão 2.0.0+cu117. O código fonte está disponível no repositório GitHub \textit{ppgcc-deep-learning-pinn}\cite{ppgcc_deep_learning_pinn_2023}.
 
 \subsection{Dados}
 
-\subsection{Gráfico}
+Os dados utilizados no modelo foram obtidos através do site do \textit{Projeto Queimadas} do Instituto Nacional de Pesquisas Espaciais (INPE)\cite{terra_brasilis_dataset}, o qual fornece medidas de sensoriamento remoto de incêndios florestais no Brasil desde 1998. Estes incluem informações diárias sobre focos de incêndio, capturadas por uma rede de dez satélites polares e óticos operando na faixa termal-média de 4 \textmu m. Este conjunto gera aproximadamente 200 imagens diariamente com periodicidades horárias e diárias, que são posteriormente reprocessadas e sumarizadas mensalmente.\newline
+
+Após uma análise exploratória inicial, foram selecionados os seguintes conjuntos de dados para o modelo:
+
+\begin{itemize}
+    \item \textbf{Focos de Incêndio}: variável resposta composta por dados diários de focos de incêndio, em formato CSV \ref{fig:wildfire}\cite{terra_brasilis_dataset_focos}.
+    \item \textbf{Precipitação}: variável explicativa com dados diários de precipitação, em formato netCDF, com unidades de medida não explicitadas e dimensões de 901x850 em latitude e longitude \ref{fig:precipitation}\cite{terra_brasilis_dataset_precipitacao}.
+    \item \textbf{Temperatura}: variável explicativa com dados diários de temperatura, em formato netCDF, com unidades de medida não explicitadas e dimensões de 361x345 em latitude e longitude \ref{fig:temperature}\cite{terra_brasilis_dataset_temperatura}.
+    \item \textbf{Umidade Relativa do Ar}: variável explicativa com dados diários de umidade relativa do ar, em formato netCDF, com unidades de medida não explicitadas e dimensões de 361x345 em latitude e longitude \ref{fig:relativeHumidity}\cite{terra_brasilis_dataset_umidade_relativa}.
+    \item \textbf{Número de Dias Sem Chuva}: variável explicativa com o número de dias sem chuva em um período de 120 dias, em formato netCDF, com dimensões de 850x901 em latitude e longitude \ref{fig:daysWithoutRain}\cite{terra_brasilis_dataset_umidade_numero_dias_sem_chuva}.\newline
+\end{itemize}
+
+O período considerado para a análise temporal diária foi de 19 de outubro de 2023 a 24 de novembro de 2023 \ref{fig:figura_1}.
+
 \begin{figure}[h]
-\centering
-\includegraphics[width=0.8\linewidth]{../data/08_reporting/wildfire_spread/data_availability.png}
-\caption{Legenda da imagem.}
-\label{fig:meu_rotulo}
+    \centering
+    \includegraphics[width=0.95\linewidth]{../data/08_reporting/wildfire_spread/data_availability.png}
+    \caption{Disponibilidade temporal dos dados.}
+    \label{fig:figura_1}
 \end{figure}
 
+\subsection{Preparação dos Dados}
 
-%
-% % \subsection{Pseudocódigo}
-% % \begin{algorithm}
-% % \caption{Algoritmo de Exemplo}
-% % \begin{algorithmic}[1]
-% % \Procedure{MeuAlgoritmo}{}
-% % \State $x \gets 0$
-% % \While{$x < 10$}
-% % \State $x \gets x + 1$
-% % \EndWhile
-% % \EndProcedure
-% % \end{algorithmic}
-% % \end{algorithm}
-%
-% \subsection{Modelo}
-% O modelo usado está encapsulado na classe \texttt{WildfirePredictor}, um modelo de aprendizagem profunda que recebe um \emph{batch} de $N$ dias vinda do conjunto de dados estruturado conforme a seção anterior e retorna uma matriz espacial de probabilidades de foco de incêndio, onde cada elemento de matriz corresponde a uma região de longitude e latitude. A arquitetura é uma combinação de rede convolucional para extração de \emph{features} e rede de memória de longo e curto prazo, para levar em conta a temporalidade do conjunteo de dados.\\
-% A arquitetura está estruturada da seguinte forma:
-%
-% \begin{enumerate}
-%     \item \textbf{Camadas de Convolução}: A etapa de convolução é compostas por duas camadas; a primeira com \emph{input} de 4 canais, \emph{output} de \texttt{conv1\_channels}, \emph{kerne} de $3 \times 3$, passo de 2 e preenchimento de 1; o segundo é tem as mesmas propriedades, exceto pelo \emph{output}, que tem \texttt{conv2\_channels} canais. Essa camada desempenha papel de extração de \emph{features} das matrizes que representam mapas.
-%     \item \textbf{Camada Temporal}: A etapa temporal recebe o \emph{output} das camadas de convolução, a horizontaliza, convertendo o tensor final em um \emph{array} de \texttt{lstm\_hidden\_size} células.
-%
-% \end{enumerate}
-%
-% \section{Resultados}
-%
-% % \subsection{Gráfico}
-% % \begin{figure}[h]
-% % \centering
-% % \includegraphics[width=0.8\linewidth]{caminho_para_sua_imagem.jpg}
-% % \caption{Legenda da imagem.}
-% % \label{fig:meu_rotulo}
-% % \end{figure}
-%
-% % \subsection{Tabela}
-% % \begin{table}[h]
-% % \centering
-% % \caption{Legenda da tabela.}
-% % \label{tab:meu_rotulo}
-% % \begin{tabularx}{\columnwidth}{|c|c|c|}
-% % \hline
-% % Coluna 1 & Coluna 2 & Coluna 3 \\
-% % \hline
-% % Dado 1 & Dado 2 & Dado 3 \\
-% % \hline
-% % \end{tabularx}
-% % \end{table}
-%
-% \section{Conclusão}
-% \lipsum[11]
-%
-% % \bibliographystyle{IEEEtran}
-% % \bibliography{referencias}
+As matrizes foram padronizadas e utilizadas como camadas de tensores de entrada do modelo, com cada matriz resultante de um gráfico geográfico com projeção cilíndrica de Plate Carrée e dimensões de 300x300. O tensor final para cada um dos \textit{N} dias de observação possui a dimensionalidade: (\textit{N}, 5, 300, 300). O pseudocódigo a seguir ilustra o processo de preparação dos dados para o modelo:
+
+\begin{algorithm}
+    \caption{Preparação dos Dados}
+    \begin{algorithmic}[1]
+        \Procedure{PreparacaoDados}{\textit{dados}, \textit{nome\_coluna}}
+            \State $MAX\_LAT \gets 32.99499999641088$
+            \State $MIN\_LAT \gets -55.98500000358912$
+            \State $MAX\_LON \gets -33.009801806103724$
+            \State $MIN\_LON \gets -119.98980180610373$
+
+            \State Cria figura com projeção PlateCarree
+            \State Define as coordenadas com base nas constantes de latitude e longitude
+
+            \State Exibe a figura
+
+            \State \textit{dados} $\gets$ extrai RGB da figura
+            \State \textit{soma\_canais} $\gets$ soma dos canais de \textit{dados}
+
+            \State \Return \textit{soma\_canais}
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.95\linewidth]{../data/08_reporting/wildfire_spread/wildfire_13.png}
+        \caption{Focos de incêndio.}
+        \label{fig:wildfire}
+\end{figure}
+
+A construção da variável resposta foi realizada de maneira análoga, porém com a criação de histogramas bidimensionais em vez de imagens geográficas, aplicando-se uma condição de binarização para simplificar a modelagem do problema.
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.66\linewidth]{../data/08_reporting/wildfire_spread/days_without_rain_13.png}
+        \caption{Dias sem chuva.}
+        \label{fig:daysWithoutRain}
+\end{figure}
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.66\linewidth]{../data/08_reporting/wildfire_spread/precipitation_13.png}
+        \caption{Precipitação.}
+        \label{fig:precipitation}
+\end{figure}
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.66\linewidth]{../data/08_reporting/wildfire_spread/relative_humidity_13.png}
+        \caption{Umidade relativa do ar.}
+        \label{fig:relativeHumidity}
+\end{figure}
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.66\linewidth]{../data/08_reporting/wildfire_spread/temperature_13.png}
+        \caption{Temperatura.}
+        \label{fig:temperature}
+\end{figure}
+
+Os dados foram submetidos a um processo de normalização, garantindo que tanto os valores de entrada quanto os de saída variem entre 0 e 1. Dada a natureza tensorial do conjunto de dados, optou-se por realizar a normalização ao longo do eixo 2, correspondente à profundidade. Este processo envolveu a padronização dos dados, onde a média e o desvio padrão de cada camada foram calculados e aplicados ao longo do eixo temporal, de acordo com a equação \ref{eq:standarization}. 
+
+\begin{equation}
+    \hat{x}_{i,j,k,l,m} = \frac{x_{i,j,k,l,m} - \mu_{k}}{\sigma_{k}} \label{eq:standarization}
+\end{equation}
+
+Para as etapas de treinamento e validação do modelo, o conjunto de dados foi dividido em proporções de 70\% e 30\%, respectivamente. Especificamente, das 37 amostras disponíveis, 25 foram alocadas para o treinamento e as 12 restantes para a validação do modelo.\newline
+
+\subsection{Modelo}
+
+O modelo preditivo desenvolvido combina três arquiteturas de rede neural: uma Rede Neural Convolucional (CNN), uma Rede Neural Recorrente de Memória de Curto Prazo (LSTM) e uma Rede Neural Totalmente Conectada (FCN). A arquitetura resultante é caracterizada da seguinte forma: A primeira camada convolucional, com \texttt{input\_channels} canais de entrada e \texttt{conv1\_channels} canais de saída, emprega um kernel de tamanho 3, passo de 2 e preenchimento de 1, utilizando a função de ativação ReLU. A segunda camada convolucional, recebendo \texttt{conv1\_channels} canais de entrada e reduzindo para \texttt{conv2\_channels} canais de saída, mantém as mesmas configurações de kernel, passo e preenchimento, e também aplica a função ReLU. A camada LSTM processa a saída da segunda camada convolucional, convertida em um vetor unidimensional, e produz uma saída com \texttt{lstm\_hidden\_size} unidades ocultas. A rede totalmente conectada inclui uma camada oculta de \texttt{fc\_hidden\_size} e uma camada de saída de \texttt{output\_size}, com a saída final sendo transformada em uma matriz de 300x300 e passada por uma função sigmoide para gerar a predição probabilística do modelo.\newline
+
+\begin{algorithm}
+    \caption{CNN + LSTM + FCN}
+    \begin{algorithmic}[1]
+        \Procedure{WildfirePredictor}{}
+            \State Primeira camada de convolução reduz dimensões pela metade e muda quantidade de canais
+            \State Segunda camada de convolução reduz dimensões pela metade e muda quantidade de canais
+            \State Camada LSTM processa saída de camada convolucional 1-dimensionalizada
+            \State Camada linear completamente conectada processa saída de camada LSTM
+        \EndProcedure
+        \Procedure{Forward}{X}
+            \For{cada passo temporal de X}
+                \State Aplicar primeira camada convolucional e função de ativação
+                \State Aplicar segunda camada convolucional e função de ativação
+                \State Armazenar resultado
+            \EndFor
+            \State Aplicar camada LSTM nos resultados armazenados
+            \State Aplicar camada linear no último output da camada LSTM
+            \State Aplicar função de ativação sigmoide
+            \State \textbf{return} resultado
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+Os parâmetros do modelo incluem os tamanhos das camadas convolucionais, a dimensão da camada LSTM, o tamanho da camada oculta da FCN e as dimensões da camada de saída. Além disso, o tamanho do lote de amostras é um hiperparâmetro implícito, determinando a temporalidade considerada pela componente LSTM do modelo. O treinamento foi realizado com o otimizador Adam, taxa de aprendizado de 0.001, e a função de perda de entropia cruzada binária.
+
+\subsection{Treinamento e Validação}
+
+O treinamento do modelo foi conduzido ao longo de 30 épocas, utilizando um tamanho de lote (\textit{batch}) contendo uma única amostra. Em cada época, o conjunto de dados foi aleatoriamente embaralhado e dividido, designando 25 amostras para o treinamento e 12 amostras para a validação.\newline
+
+Devido à natureza probabilística do problema, foi escolhida a métrica Brier Loss para avaliar o desempenho do modelo. A Brier Loss é uma função de perda quadrática que mede a diferença entre a probabilidade prevista e a probabilidade real de um evento ocorrer \ref{eq:brierLoss}.
+
+\begin{equation}
+    \text{Brier Loss} = \frac{1}{N} \sum_{i=1}^{N} (y_{i} - p_{i})^{2} \label{eq:brierLoss}
+\end{equation}
+
+Além disso os dados podem ser considerados desbalanceados em relação à variável resposta, uma vez que a maioria das amostras não apresenta focos de incêndio. Portanto, a métrica de acurácia balanceada também foi utilizada para avaliar o desempenho do modelo \ref{eq:balancedAccuracy}.
+
+\begin{equation}
+    \text{Balanced Accuracy} = \frac{1}{2} \left( \frac{TP}{TP + FN} + \frac{TN}{TN + FP} \right) \label{eq:balancedAccuracy}
+\end{equation}
+
+Ambas as métricas foram calculadas element-wise e posteriormente agregadas para obter o resultado final. Em particular, para o cálculo da acurácia balanceada, em que é necessário um valor binário, foi definido o treshold de 0.5 para a probabilidade de incêndio.\newline
+
+\subsection{Experimentos}
+
+Foram realizados experimentos para avaliar o impacto de diferentes parâmetros de arquitetura do modelo e de treinamento. Os resultados dos experimentos são apresentados na seção de resultados. Também foi realizado um experimento para avaliar o impacto da inclusão de estratégias típicas de problemas de aprendizado profundo em visão computacional, como max pooling e dropout, além de batch normalization, porém os resultados não apresentaram melhoria significativa com respeito à abordagem escolhida inicialmente e, portanto, não foram incluídos neste trabalho.
+
+\section{Resultados}
+
+Os resultados dos experimentos são apresentados na tabela \ref{tab1}. O modelo com melhor desempenho foi o que utilizou 30 épocas de treinamento, com uma camada convolucional de 4 canais de entrada e 3 canais de saída, uma camada convolucional de 3 canais de entrada e 1 canal de saída, uma camada LSTM de 5625 unidades ocultas, e uma camada FCN de 32 unidades ocultas.
+
+\begin{table*}[htbp]
+    \begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Epochs} & \textbf{Modelo} & \textbf{Brier Score} & \textbf{Balanced Accuracy} \\
+    \hline
+    30 & Conv1: 4→3, Conv2: 3→1, LSTM: 5625→32, FC: 32→90000 & 0.0347 & 0.6163 \\
+    \hline
+    30 & Conv1: 4→3, Conv2: 3→2, LSTM: 11250→64, FC: 64→90000 & 0.0347 & 0.6165 \\
+    \hline
+    10 & Conv1: 4→8, Conv2: 8→16, LSTM: 90000→64, FC: 64→90000 & 0.0660 & 0.6169 \\
+    \hline
+    100 & Conv1: 4→6, Conv2: 6→12, LSTM: 67500→64, FC: 64→90000 & 0.0347 & 0.6163 \\
+    \hline
+    \end{tabular}
+    \label{tab1}
+    \end{center}
+    \caption{Resultados dos experimentos alterando os parâmetros de arquitetura do modelo e de treinamento. \texttt{Conv}:x$\rightarrow$y representa a camada de convolução alterando a dimensão de profundidade do tensor de x para y; \texttt{LSTM}:x$\rightarrow$y representa a camada LSTM alterando o vetor output das camadas de convolução de x para y; \texttt{FC}:x$\rightarrow$y representa a camada FC alterando o vetor output da camada LSTM de x para y.}
+\end{table*}
+
+A figura \ref{fig:figura_2} apresenta a função de perda ao longo das épocas de treinamento.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.66\linewidth]{../data/08_reporting/wildfire_spread/loss.png}
+    \caption{Função de perda ao longo das épocas de treinamento.}
+    \label{fig:figura_2}
+\end{figure}
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.95\linewidth]{../data/08_reporting/wildfire_spread/target.png}
+        \caption{Variável resposta.}
+        \label{fig:target}
+\end{figure}
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.95\linewidth]{../data/08_reporting/wildfire_spread/probability.png}
+        \caption{Probabilidade de incêndio.}
+        \label{fig:probability}
+\end{figure}
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.95\linewidth]{../data/08_reporting/wildfire_spread/prediction.png}
+        \caption{Predição do modelo.}
+        \label{fig:prediction}
+\end{figure}
+
+\section{Conclusões}
+
+A características mais notável do modelo é a invariância das métricas de avaliação -- bem como do valor assintótico da função perda -- com respeito a alterações de hiperparâmetros. Em outras palavras, a estagnação dos valores desses valores, por um lado indica que o modelo não apresenta overfitting, mas por outro lado indica que o modelo não está aprendendo a relação entre as variáveis explicativas e a variável resposta.Esse problema pode ser contornado com o aumento do tamanho do conjunto de dados, o que não foi possível devido à limitação de dados disponíveis. Para contornar isso é possível adaptar a preparação de dados para o uso de datasets alternativos de incêndios florestais, como o projeto FIRMS da NASA \cite{firms_1,firms_2,firms_3}, que fornece dados globais de focos de incêndio.\newline
+
+Com respeito à aprendizagem, comparando uma amostra da variável resposta \ref{fig:target} no conjunto de validação, com as probabilidades \ref{fig:probability} e predições correspondentes \ref{fig:prediction}, nota-se que o modelo consegue aprender a representação de elementos básicos da distribuição geoespacial dos incêndios, por exemplo que é improvável que haja focos de incêndios no mar ou, mais útil do ponto de vista prático, que as maiores probabilidades de incêndio estão concentradas nas regiões nordeste e centroeste do território.
+
+\bibliographystyle{IEEEtran}
+\bibliography{artigo}
 
 \end{document}
-
-
-% \documentclass{article}
-% \usepackage[utf8]{inputenc}
-% \usepackage{algorithm}
-% \usepackage{algpseudocode}
-
-% \begin{document}
-
-% % \begin{algorithm}
-% % \caption{Training a Physics-Informed Neural Network (PINN)}
-% % \begin{algorithmic}[1]
-% % \REQUIRE Training data: $(x_{i}, t_{i}, u_{i})$, Physical laws: $F(x, t, u, u_{x}, u_{t},...)$, Collocation points: $(x_{c}, t_{c})$
-
-% % \STATE Initialize weights and biases: $W^{(l)}, b^{(l)}$
-% % \FOR{number of training epochs}
-% %     \FOR{each training sample $(x_{i}, t_{i}, u_{i})$}
-% %         \STATE Compute predicted output using forward pass: $u_{pred} = \text{NN}(x_{i}, t_{i}; W, b)$
-% %         \STATE Calculate data loss: $L_{D} = ||u_{pred} - u_{i}||^2$
-% %     \ENDFOR
-% %     \FOR{each collocation point $(x_{c}, t_{c})$}
-% %         \STATE Use automatic differentiation to compute: $u_{x}, u_{t}, ...$
-% %         \STATE Compute the residuals based on physical laws: $r = F(x_{c}, t_{c}, u, u_{x}, u_{t},...)$
-% %         \STATE Calculate physics-informed loss: $L_{F} = ||r||^2$
-% %     \ENDFOR
-% %     \STATE Compute total loss: $L = L_{D} + L_{F}$
-% %     \STATE Backpropagate to get gradients: $\nabla L$
-% %     \STATE Update weights and biases using an optimization algorithm (e.g., Adam, SGD)
-% % \ENDFOR
-% % \RETURN trained model parameters $W^{(l)}, b^{(l)}$
-% % \end{algorithmic}
-% % \end{algorithm}
-
-
-% \begin{algorithm}
-% \caption{Treinamento de Physics Informed Neural Networks}
-% \begin{algorithmic}[1]
-% \Require Features de treinamento: $X=(x_i, t_i)$
-% \Require Target de treinamento: $Y=(y_i)$
-% \Require Pontos collocation: $C=(x_c,t_c)$
-% \Require Quantidade de épocas: $E$
-% \Require Learning rate: $\alpha$
-% \Require Função de ativação: $a$
-% \Require Peso de função perda física: $\lambda$
-% \Require Função equação diferencial: F
-% \Require Função condições iniciais e de contorno: B
-% \Procedure{pinn}{}
-%     \State Início aleatório de pesos e vieses $W$ e $b$
-%     \For{$epoch = 1$ to E}
-%         \State Zera gradientes
-%         \For{each ($t_i$, $x_i$, $y_i$) in ($X$, $Y$)}
-%             \State Forward: $\hat{y} = \text{NN}(x_{i}, t_{i}; W, b)$
-%         \EndFor
-%         \State $\mathcal{L}_{\mathcal{D}} \gets \;$ Calcula função perda dos dados
-%         \For{each ($t_c$, $x_c$) in $C$}
-%             \State Forward: $\hat{y}_{c} = \text{NN}(x_{c}, t_{c}; W, b)$
-%             \State Calcula equação diferencial: $F(x_{c}, t_{c}, \hat{y}_{c}, \partial_{x}\hat{y}_{c}, \partial_{t}\hat{y}_{c}, \dots)$
-%             \State Calcula condições de contorno
-%         \EndFor
-%         \State $\mathcal{L}_{\mathcal{F}} \gets \;$ Calcula função perda de sistema físico
-%         \State $\mathcal{L}_{\mathcal{B}} \gets \;$ Calcula função perda de condições de contorno
-%         \State $\mathcal{L}} \gets \mathcal{L}_{\mathcal{D}} + \lambda(\mathcal{L}_{\mathcal{F}} + \mathcal{L}_{\mathcal{B}})$
-%         \State Backpropagation
-%         \State Atualiza pesos e vieses $W$ e $b$
-%     \EndFor
-% \EndProcedure
-% \end{algorithmic}
-% \end{algorithm}
-
-% \end{document}
