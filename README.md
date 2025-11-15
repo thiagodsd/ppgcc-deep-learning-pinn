@@ -15,11 +15,3 @@ This model is part of a couple of conclusion projects for the Deep Learning cour
 kaggle datasets download -d cerranet/volume-de-represas-de-so-paulo
 
 ```
-
-## References
-
-<!-- 
-1. M.Ç.Aksoy (2022). Trees in Satellite Imagery [Dataset].https://www.kaggle.com/datasets/mcagriaksoy/trees-in-satellite-imagery
-
-2. Helber, P., Bischke, B., Dengel, A., & Borth, D. (2019). Eurosat: A novel dataset and deep learning benchmark for land use and land cover classification. IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 12(7), 2217-2226. 
--->
