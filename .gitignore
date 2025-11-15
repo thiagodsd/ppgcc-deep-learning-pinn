@@ -53,3 +53,6 @@ data/01_raw/trees-in-satellite-imagery/Trees in Satellite Imagery/NoTrees/*
 data/01_raw/trees-in-satellite-imagery/Trees in Satellite Imagery/Trees/*
 data/01_raw/volume-de-represas-de-so-paulo.zip
 data/01_raw/volume-de-represas-de-so-paulo/*
+data/08_reporting/wildfire_spread/*.png
+data/08_reporting/wildfire_spread/*.gif
+data/08_reporting/wildfire_spread/*.mp4
