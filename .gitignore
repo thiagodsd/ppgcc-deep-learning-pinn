@@ -57,3 +57,6 @@ data/01_raw/DL_FIRE_J1V-C2_401899/*
 data/08_reporting/wildfire_spread/*
 data/01_raw/inpe_queimadas/**/*
 data/02_intermediate/wildfire_spread/timeseries_normed_tensor.h5
+data/08_reporting/**/*.png
+data/08_reporting/**/*.gif
+data/08_reporting/**/*.mp4
